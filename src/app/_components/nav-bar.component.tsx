@@ -27,7 +27,7 @@ export function NavBarElement(props: {
           {props.showName ? (
             <p className="p-1">{props.name}</p>
           ) : (
-            <img src={props.icon || "favicon.ico"} alt={props.name} className="w-8 h-8" />
+            <img src={props.icon ?? "favicon.ico"} alt={props.name} className="w-8 h-8" />
           )}
         </a>
       </div>
