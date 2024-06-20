@@ -9,10 +9,10 @@ export default async function Home() {
   const session = await getServerAuthSession();
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#9F86C0] to-[#5E548E] text-white">
       <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
         <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
-          Welcome to <span className="text-[hsl(280,100%,70%)]">Z-Gram</span>
+          Welcome to <span className="text-[#E0B1CB]">Z-Gram</span>
         </h1>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8"></div>
         <div className="flex flex-col items-center gap-2">
@@ -30,9 +30,13 @@ export default async function Home() {
             </Link>
           </div>
         </div>
-
-        <CrudShowcase />
-        <NavBar />
+        {session && (
+          <>
+          <CrudShowcase />
+          <NavBar />
+          </>
+        )}
+        
       </div>
     </main>
   );
