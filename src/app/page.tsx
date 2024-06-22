@@ -4,6 +4,7 @@ import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 import { NavBar } from "./_components/nav-bar.component";
+import { ImageTest } from "./_components/image-test.component";
 
 export default async function Home() {
   const session = await getServerAuthSession();
@@ -34,6 +35,7 @@ export default async function Home() {
           <>
           <CrudShowcase />
           <NavBar />
+          <ImageTest />
           </>
         )}
         
