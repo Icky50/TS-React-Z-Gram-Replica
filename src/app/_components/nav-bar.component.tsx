@@ -5,11 +5,11 @@ interface NavBarProps {
 export function NavBar() {
   return (
     <div className="p-2 m-1 flex w-11/12 justify-center">
-      <NavBarElement icon="icons/search.svg" link="search" name={"Search"} />
-      <NavBarElement icon="icons/explore.svg" link="explore" name={"Explore"} />
-      <NavBarElement icon="icons/feed.svg" link="feed" name={"Feed"} />
-      <NavBarElement icon="icons/profile.svg" link="profile" name={"My Profile"} />
-      <NavBarElement icon="icons/new_post.svg" link="new_post" name={"New Post"} />
+      <NavBarElement icon="/icons/search.svg" link="/page/search" name={"Search"} />
+      <NavBarElement icon="/icons/explore.svg" link="/page/explore" name={"Explore"} />
+      <NavBarElement icon="/icons/feed.svg" link="/page/feed" name={"Feed"} />
+      <NavBarElement icon="/icons/profile.svg" link="/page/profile" name={"My Profile"} />
+      <NavBarElement icon="/icons/new_post.svg" link="/page/post/new" name={"New Post"} />
     </div>
   );
 }
