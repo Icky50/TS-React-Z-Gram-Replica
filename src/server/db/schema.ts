@@ -41,7 +41,7 @@ export const posts = createTable(
 );
 
 export const users = createTable("user", {
-  id: serial("id").primaryKey(),
+  id: varchar("id", { length: 255 }).primaryKey(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
@@ -58,7 +58,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const accounts = createTable(
   "account",
   {
-    userId: serial("userId")
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
     type: varchar("type", { length: 255 })
@@ -92,7 +92,7 @@ export const sessions = createTable(
     sessionToken: varchar("sessionToken", { length: 255 })
       .notNull()
       .primaryKey(),
-    userId: serial("userId")
+    userId: varchar("userId", { length: 255 })
       .notNull()
       .references(() => users.id),
     expires: timestamp("expires", {
