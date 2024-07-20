@@ -4,9 +4,9 @@ import {
   integer,
   pgTableCreator,
   primaryKey,
-  serial,
   text,
   timestamp,
+  uuid,
   varchar,
 } from "drizzle-orm/pg-core";
 import { type AdapterAccount } from "next-auth/adapters";
@@ -24,9 +24,9 @@ export const createTable = pgTableCreator(
 export const posts = createTable(
   "post",
   {
-    id: serial("id").primaryKey(),
+    id: uuid("id").primaryKey(),
     name: varchar("name", { length: 256 }),
-    createdById: serial("createdById")
+    createdById: uuid("createdById")
       .notNull()
       .references(() => users.id),
     createdAt: timestamp("created_at", { withTimezone: true })
@@ -41,7 +41,7 @@ export const posts = createTable(
 );
 
 export const users = createTable("user", {
-  id: varchar("id", { length: 255 }).primaryKey(),
+  id: uuid("id").primaryKey().default(sql`uuid_generate_v4()`),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 255 }).notNull(),
   emailVerified: timestamp("emailVerified", {
@@ -58,7 +58,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const accounts = createTable(
   "account",
   {
-    userId: varchar("userId", { length: 255 })
+    userId: uuid("userId")
       .notNull()
       .references(() => users.id),
     type: varchar("type", { length: 255 })
@@ -92,7 +92,7 @@ export const sessions = createTable(
     sessionToken: varchar("sessionToken", { length: 255 })
       .notNull()
       .primaryKey(),
-    userId: varchar("userId", { length: 255 })
+    userId: uuid("userId")
       .notNull()
       .references(() => users.id),
     expires: timestamp("expires", {
