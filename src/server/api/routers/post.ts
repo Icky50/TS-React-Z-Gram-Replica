@@ -1,3 +1,4 @@
+import { eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -23,4 +24,10 @@ export const postRouter = createTRPCRouter({
       orderBy: (posts, { desc }) => [desc(posts.createdAt)],
     });
   }),
+
+  getLatestById: publicProcedure
+    .query(({ ctx }) => {
+      let uid = ctx.session?.user.id;
+      return uid ? ctx.db.select({name: posts.name}).from(posts).where(eq(posts.createdById, uid)) : undefined;
+    })
 });
