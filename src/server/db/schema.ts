@@ -27,26 +27,7 @@ export const createTable = pgTableCreator(
 export const posts = createTable(
   "post",
   {
-    id: serial("id").primaryKey(),
-    name: varchar("name", { length: 256 }),
-    createdById: uuid("createdById")
-      .notNull()
-      .references(() => users.id),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updatedAt", { withTimezone: true }),
-  },
-  (example) => ({
-    createdByIdIdx: index("createdById_idx").on(example.createdById),
-    nameIndex: index("name_idx").on(example.name),
-  }),
-);
-
-export const new_posts = createTable(
-  "new_post",
-  {
-    id: uuid("id").primaryKey(),
+    id: uuid("id").primaryKey().default(sql`uuid_generate_v4()`),
     name: varchar("name", { length: 256 }).notNull(),
     caption: varchar("caption", { length: 256 }),
     imageUrl: varchar("imageUrl", { length: 256 }),
