@@ -1,4 +1,4 @@
-import { eq, isNull } from "drizzle-orm";
+import { eq, isNotNull, isNull } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -29,5 +29,10 @@ export const postRouter = createTRPCRouter({
     .query(({ ctx }) => {
       let uid = ctx.session?.user.id;
       return uid ? ctx.db.select({name: posts.name}).from(posts).where(eq(posts.createdById, uid)) : undefined;
+    }),
+
+  getAllContainingImages: publicProcedure
+    .query(({ ctx }) => {
+      return ctx.db.select({image: posts.imageUrl, id: posts.id}).from(posts).where(isNotNull(posts.imageUrl));
     })
 });

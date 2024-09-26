@@ -6,6 +6,8 @@ import { api } from "~/trpc/server";
 import { NavBar } from "./_components/nav-bar.component";
 import { ImageTest } from "./_components/image-test.component";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const session = await getServerAuthSession();
 
