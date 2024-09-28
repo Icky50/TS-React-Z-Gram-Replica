@@ -22,7 +22,7 @@ export function NavBarElement(props: {
 }) {
   return (
     <>
-      <div className="p1 my-1 mx-5 flex items-center rounded-md bg-transparent hover:bg-[#5E548E] w-20 h-20">
+      <div className="p1 my-1 mx-5 flex items-center rounded-md bg-transparent hover:bg-accent w-20 h-20">
         <a href={props.link} className="w-full h-full flex justify-center items-center">
           {props.showName ? (
             <p className="p-1">{props.name}</p>

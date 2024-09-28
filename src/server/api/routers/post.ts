@@ -1,4 +1,4 @@
-import { eq, isNotNull, isNull } from "drizzle-orm";
+import { and, eq, isNotNull, isNull } from "drizzle-orm";
 import { z } from "zod";
 
 import {
@@ -6,7 +6,7 @@ import {
   protectedProcedure,
   publicProcedure,
 } from "~/server/api/trpc";
-import { posts } from "~/server/db/schema";
+import { posts, users } from "~/server/db/schema";
 
 export const postRouter = createTRPCRouter({
   create: protectedProcedure
@@ -33,6 +33,20 @@ export const postRouter = createTRPCRouter({
 
   getAllContainingImages: publicProcedure
     .query(({ ctx }) => {
-      return ctx.db.select({image: posts.imageUrl, id: posts.id}).from(posts).where(isNotNull(posts.imageUrl));
-    })
+      return ctx.db.select({image: posts.imageUrl, id: posts.id, caption: posts.caption, title: posts.name}).from(posts).where(isNotNull(posts.imageUrl));
+    }),
+  
+  getAllPostsById: publicProcedure
+    .query(({ ctx }) => {
+      let uid = ctx.session?.user.id;
+      return uid ? ctx.db.select({title: posts.name, caption: posts.caption, image: posts.imageUrl, id: posts.id}).from(posts).where(eq(posts.createdById, uid)) : undefined;
+    }),
+
+  getAllPostsByUsername: publicProcedure
+    .input(z.string()).query(({ ctx, input }) => {
+      return ctx.db.select({title: posts.name, caption: posts.caption, image: posts.imageUrl, id: posts.id})
+        .from(posts)
+        .innerJoin(users, eq(posts.createdById, users.id))
+        .where(eq(users.name, input));
+    }),
 });

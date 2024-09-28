@@ -1,5 +1,3 @@
-import { url } from "inspector";
-import { db } from "~/server/db";
 import { api } from "~/trpc/server";
 
 // const mockUrls = [
@@ -12,18 +10,21 @@ import { api } from "~/trpc/server";
 // 	"https://utfs.io/f/09381b79-373f-41d4-9451-fe38962bb85a-txpmg1.png",
 // ]
 
-const images = await api.post.getAllContainingImages();
+export async function ImageTest() {
+	const images = await api.post.getAllContainingImages();
 
-const mockImagesHtml = images.map((post) => (
-	post.image && <img className="w-80 m-2" key={post.id} src={post.image} alt="image" />
-));
-
-export function ImageTest() {
+	const imagesHtml = images && images.map((post) => (
+		post.image && <img className="w-80 m-2" key={post.id} src={post.image} alt="image" />
+	));
 	return (
 		<>
-			<h1>ImageTest</h1>
-			<div>
-				{mockImagesHtml}
+			<h1 className="text-3xl font-bold mb-4">ImageTest</h1>
+			<div className="flex flex-wrap justify-center">
+				{imagesHtml && imagesHtml.map((image) => (
+					<div className="m-2" style={{ width: '20rem', height: 'auto' }}>
+						{image}
+					</div>
+				))}
 			</div>
 		</>
 	);
