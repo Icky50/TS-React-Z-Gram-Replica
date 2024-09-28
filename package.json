@@ -20,6 +20,8 @@
     "@trpc/client": "next",
     "@trpc/react-query": "next",
     "@trpc/server": "next",
+    "bun": "^1.1.29",
+    "drizzle": "",
     "drizzle-orm": "^0.30.10",
     "geist": "^1.3.0",
     "next": "^14.2.12",
