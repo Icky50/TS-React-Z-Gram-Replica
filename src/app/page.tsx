@@ -1,10 +1,7 @@
 import Link from "next/link";
 
-import { CreatePost } from "~/app/_components/create-post";
 import { getServerAuthSession } from "~/server/auth";
-import { api } from "~/trpc/server";
 import { NavBar } from "./_components/nav-bar.component";
-import { ImageTest } from "./_components/image-test.component";
 
 export const dynamic = "force-dynamic";
 
@@ -35,32 +32,11 @@ export default async function Home() {
         </div>
         {session && (
           <>
-          <CrudShowcase />
           <NavBar />
-          <ImageTest />
           </>
         )}
         
       </div>
     </main>
-  );
-}
-
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
-
-  const latestPosts = await api.post.getLatestById();
-
-  return (
-    <div className="w-full max-w-xs">
-      {latestPosts && latestPosts[0] ? (
-        <p className="truncate">Your most recent post: <br></br> {latestPosts[0].name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
-
-      <CreatePost />
-    </div>
   );
 }
