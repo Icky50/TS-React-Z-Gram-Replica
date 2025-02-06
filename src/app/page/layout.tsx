@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import { getServerAuthSession } from "~/server/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -10,7 +11,9 @@ export const metadata: Metadata = {
     "Create Next App with TypeScript, Tailwind CSS, NextAuth, Prisma, tRPC, and more.",
 };
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default async function Layout({ children }: { children: React.ReactNode }) {
+  const session = await getServerAuthSession();
+
   const links = [
     { href: "/", label: "Home" },
     { href: "/page/search", label: "Search" },
@@ -19,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     { href: "/page/profile", label: "Profile" },
   ];
 
-  const buttons = [{ text: "Login" }, { text: "Theme" },];
+  const buttons = [{ text: session ? "Logout" : "Login" }, { text: "Theme" },];
 
   return (
     <html lang="en">
