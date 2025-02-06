@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { set } from "zod";
 
 interface ImageUploadPreviewLableProps {
   htmlFor: string;
@@ -33,31 +34,47 @@ export function ImageUploadPreviewLable(props: ImageUploadPreviewLableProps) {
 
   return (
     <label
-      className={`relative flex cursor-pointer flex-col items-center justify-center rounded border border-dashed border-primary p-4 w-full ${
+      className={`relative flex w-full cursor-pointer flex-col items-center justify-center rounded border border-dashed border-primary p-4 ${
         image ? "h-auto" : "h-32"
       }`}
       htmlFor={props.htmlFor}
     >
       <div className="flex flex-col items-center text-primary">
-        {lableFill(image)}
+        {lableFill(image, props.htmlFor, setImage)}
       </div>
     </label>
   );
 }
 
-function lableFill(image: string) {
+function lableFill(image: string, htmlFor: string, setImage: (image: string) => void) {
   if (image) {
     return (
-		<div className="relative flex items-center justify-center max-w-[800px] max-h-[500px] w-full h-full">
-		<Image
-		  src={image}
-		  alt="Uploaded Image"
-		  width={800}
-		  height={500}
-		  style={{ width: "auto", height: "auto", maxWidth: "100%", maxHeight: "100%" }}
-		  objectFit="contain"
-		/>
-	  </div>
+      <div className="relative flex h-full max-h-[500px] w-full max-w-[800px] items-center justify-center">
+        <Image
+          src={image}
+          alt="Uploaded Image"
+          width={800}
+          height={500}
+          style={{
+            width: "auto",
+            height: "auto",
+            maxWidth: "100%",
+            maxHeight: "100%",
+          }}
+          objectFit="contain"
+        />
+        <button
+          className="group absolute right-2 top-2 flex h-[24px] w-[24px] items-center justify-center overflow-hidden rounded-full bg-[rgb(20,20,20)] opacity-50 shadow-md transition-opacity duration-300 hover:rounded-[24px] hover:opacity-85"
+          onClick={() => clearImage(htmlFor, setImage)}
+        >
+          <svg viewBox="0 0 448 512" className="w-[10px]">
+            <path
+              fill="white"
+              d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
+            ></path>
+          </svg>
+        </button>
+      </div>
     );
   } else {
     return (
@@ -86,4 +103,10 @@ function lableFill(image: string) {
       </>
     );
   }
+}
+
+function clearImage(htmlFor: string, setImage: (image: string) => void) {
+  const input = document.getElementById(htmlFor) as HTMLInputElement;
+  input.value = "";
+  setImage("");
 }
